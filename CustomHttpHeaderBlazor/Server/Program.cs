@@ -1,3 +1,5 @@
+using CustomHttpHeaderBlazor.Server.Middlewares;
+using CustomHttpHeaderBlazor.Server.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<CustomHeaderService>();
 
 var app = builder.Build();
 
@@ -20,6 +23,8 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseMiddleware<CustomHeaderMiddlerware>();
 
 app.UseHttpsRedirection();
 
